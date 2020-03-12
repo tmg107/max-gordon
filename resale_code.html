@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Data Devil Blog</title>
+        <link rel="stylesheet" type="text/css" href="style.css" /> 
+        <link href="https://fonts.googleapis.com/css?family=Spectral&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="images/tri.png">
+    </head>
+    <body>
+        <div class="menu">
+            <nav>
+                <div class="centered"><a class="centered" href="index.html">Max Gordon</a>
+                <li class="pages" style="float:right"><a class="pages" href="resale_code.html">resale marketplace</a></li>
+                <li class="pages" style="float:right"><a class="pages" href="resale_code.html">machine madness</a></li>
+                <li class="pages" style="float:right"><a class="pages" href="about_me.html">about me</a></li>
+                </div>
+            </nav>
+        </div>
+        <div class="blog_resale">
+            <h1>Exploring the Resale Marketplace Online</h1> 
+            <img class="img_title" src="images/header_img.jpeg">
+            <h2>Introduction</h2>
+            <p>ThredUp, one of the largest resale marketplaces, predicts that 29% of millennials and 37% of generation Z bought secondhand clothing in 2019. According to Forbes.com, the $24 billion resale market is projected to grow to a whopping $51 billion by 2023.</p>
+            <p>I don't shop often, and in the rare instance I do, I opt to shop online. My online shopping behavior consists of scrolling through a few pages in search of a particular clothing item, then choosing to purchase the first reasonably priced and visually appealing item. Since I prefer online versus in-store, I don't often shop secondhand, however, I would be more inclined to purchase secondhand clothing if I was able to see and compare prices of resale clothing items with major retailers while I searched.</p>
+            <p>With this in mind, I created a program in Python that used clothing item descriptions and machine learning algorithms to find similarly matched resale items and performed a price comparison analysis to help lazy shoppers like myself save money.</p>
+            <h2>Data Collection</h2>
+            <p>The data collection phase was easily the most time-consuming portion of the project. I originally considered scraping resale item entries from websites, such as ThredUp or Poshmark, to develop the resale database. However, each sub-category of clothing on ThredUp contained over 50,000 entries and was computationally inefficient to request. The resale database I ended up using was the eBay resale marketplace since I could gain access to their API after requesting a developer's code online.</p>
+            <p>To give a quick overview of the data collection process, I needed to:</p>
+            <ol>
+                <li>Scrape and define the category ID dictionary and brand list</li>
+                <li>Find and scrape a clothing item online to test against the resale market</li>
+                <li>Clean the existing data values</li>
+                <li>Request and pull the eBay clothing items given the brand and category ID</li>
+            </ol>
+            <p>The first step was to scrape the category IDs (which will be used to narrow down the search options) from the eBay API catalog using the Python package Selenium, which uses Google Chrome as a web driver. Selenium requests the category ID page and pulls all element titles and text corresponding to the tag within the HTML code, as shown below.</p>
+            <img class="img_1" src="images/category_tree.png">  
+            <p>Figure 1: Part of the eBay category ID page with corresponding HTML code</p>
+            <p>After scraping the category IDs and category titles, I created a Python dictionary that split each category title and category ID into a key and its corresponding element. Next, I scraped an item online that I wanted to use as the base case to compare against items in the resale marketplace. According to a report by ThredUp, 64% of women have bought or are open to purchasing secondhand products in the future. Since women dominate the resale market, I decided to choose a women's clothing item from the well-established brand Patagonia.</p>
+            <img class="img_2" src="images/img2.png">
+            <p>Figure 2: Women's Patagonia clothing item selected against eBay alternatives</p>
+            <p>I scraped the title: "Patagonia Women's Nano Puff® Jacket" and price: "$199.00" from Patagonia's website. For the time being, I ignored size and color as a filter since it would be based on the user's preferences and might limit the API results.</p>
+            <p>The next step was to tokenize the category IDs and the scraped Patagonia title using natural language processing to try and match any keywords from the item description to the category dictionary. The main Python package I used for natural language processing (NLP) was NLTK. With NLTK, I imported the Porter Stemmer method to stem the title description and the category ID dictionary to map each word to a root word defined by NLTK. The purpose of stemming in NLP is to reduce inflections and variations in words that would cause the algorithm to mismatch words that inherently mean the same thing.</p>
+            <img class="img_3" src="images/img3.png">
+            <p>Figure 3: Data Cleaning of Category ID using NLTK for Natural Language Processing</p>
+            <p>As you can see in Figure 3, the outputted item dictionary keys look messy but have been reduced to the root word (even if the root isn't a real word). The next step is to try and match any word from the title description to a key in the category ID dictionary. As well, I built a simple list of common brand names and tokenized and stemmed each word to perform a similar match but for brand description. From "patagonia women' nano puff® jacket" the key and brand title matched was:</p>
+            <img class="img_3" src="images/img4.png">
+            <p>Now onto the more interesting stuff. Once the category ID and brand description was identified, I can request and pull all items from the eBay API with matching descriptions and IDs. The modules I used were requests to pull and access the eBay URL, the JSON module to turn each requested URL into a JSON object, the re module to match string values, and pandas and numpy for storing data and data manipulation.</p>
+            <p>Each request made to the eBay URL shows 100 items at a time and the eBay API can request up to 100 pages totaling 10,000 items to query, which is why the for loop range is shown as (1,101) in Figure 5. Inside the URL is the developers access key (which I can't show for obvious reasons), the keyword filter (as "&keywords=patagonia"), and the category ID (found earlier as 260010).</p>
+            <img class="img_3" src="images/img5.png">
+            <p>Figure 4: Requesting eBay URL and iterating for 100 pages for a total of 10,000 entries</p>
+            <p>Within the nested for loop shown in Figure 4, the item titles, prices, and corresponding eBay URL was appended to empty lists and then formatted as a pandas data frame shown in Figure 5. The conditional statement made within the JSON file was to filter for only "buy now" items on eBay. Since eBay auctions items on its' online marketplace, I wanted to only view items that I could buy at a fixed price and not compete at an auction with other online buyers. The image shown below is the outputted pandas data frame of eBay items along with their corresponding prices.</p>
+            <img class="img_3" src="images/img6.png">
+            <p>Figure 5: First five items in the pandas data frame of eBay items </p>
+            <p>As you can see, the first five records all have the keyword brand Patagonia and almost all have women referenced somewhere within the item description (off to a good start).</p>
+            <p><b>More Text Cleaning with NLTK:</b></p>
+            <p>Since the category dictionary was already cleaned with NLTK, all that I have to do before implementing the machine learning algorithm is to clean and stem the eBay title descriptions. As I already described the NLP process earlier, I will just show the outputted matrix representing the corpus of eBay clothing title descriptions.</p>
+            <img class="img_3" src="images/img7.png">
+            <p>Figure 6: eBay item titles split and tokenized in preparation for data modeling phase</p>
+            <p>As you can see, each word in the title descriptions is outputted into a separate column in preparation for matching similar words using machine learning text analysis methods. After counting the frequency of terms for all words in the corpus, 'patagonia' was mentioned the most at a count of 8,684 times and 'jacket' the second most with a term frequency of 4,746 times.</p>
+            <p><b>Modeling Text Similarity:</b></p>
+            <p>Now that the text data is officially cleaned, the machine learning models can be implemented to determine the most similar matching items to our Patagonia jacket. The three machine learning models I tested were:</p>
+            <ol>
+                <li><b>Cosine Similarity</b></li>
+                <li>Euclidean Distance</li>
+                <li>Jaccard Similarity</li>
+            </ol>
+            <p>Out of the three methods, cosine similarity worked by far the best in recognizing similar items from the eBay clothing list. Without getting too technical, the cosine similarity function looks for the cosine of the angle between two vectors in a multi-dimensional space.</p>
+            <img class="img_3" src="images/img8.png">
+            <p>However, in text analysis, our vectors are composed of words and the angle between the two vectors represents how similar the phrases are to each other. In this example, I defined a cosine similarity function that compared the Patagonia jacket to all the other entries pulled from the eBay API. With cosine similarity, the angle can be from 0 to 1 and the closer the angle is to 1 the more similar the two sentences are. If the angle is exactly 1, the two vectors are identical and if the angle is exactly 0 there are no similar words in the two vectors.</p>
+            <p>In Python, I imported the sklearn machine learning package and utilized "TfidfVectorizer" to extract the cosine similarity between our entries.Now that the cosine values have been calculated and appended to a list, I added all values of interest to a pandas data frame and compared the results.</p>
+            <p><b>Results:</b></p>
+            <img class="img_3" src="images/img9.png">
+            <p>Figure 7: Five largest cosine values from 10,000 entries in the data frame</p>
+            <p>As seen in the pandas data frame in Figure 7, utilizing the "nlargest" function we can see that the first five values have a cosine angle of 1.0, meaning it is an exact match to the original Patagonia title description. However, the price difference, which is the last column in the data frame, is calculated by (Patagonia price of $199 - Price of eBay item). Since we are only looking for price differences greater than 0, we can filter out these values.</p>
+            <img class="img_3" src="images/img10.png">
+            <p>Figure 8: Largest cosine values with non-zero price difference values</p>
+            <p>Once items with the same price values are filtered out, we can see two entries with exact matching title descriptions and the first record has a $120 price difference with the highest cosine angle of 1.0.</p>
+            <img class="img_3" src="images/img11.png">
+            <p>Figure 9: Patagonia resale eBay item (record 6757) with the highest cosine value and $120 price difference</p>
+            <p>The eBay item from Figure 9 is very similar to the original Patagonia item shown in Figure 2, which is great news! Although the item is pre-owned, a $120 price difference would make me highly consider purchasing the item shown above over the original Patagonia item. Finally, I exported the resulting data frame into a CSV file for further analysis in Excel.</p>
+            <p><b>Conclusion:</b></p>
+            <p>Generation Z and millennials are driving growth in the resale marketplace and I wanted to figure out how to make it easier for online shoppers to compare and analyze similar items across the clothing resale market. With more shoppers considering secondhand clothing, this program can serve as a platform to quickly analyze the eBay marketplace and find the best deals on clothing you would wear.</p>
+            <p>Going forward, this program can be heavily tuned to account for color and sizes by creating a pop-up window function that would allow a user of the program to input their respective sizes and color preference to reduce the time spent shopping for clothes. Originally, I tried creating the program using a neural network that scanned the individual item images and outputted similar clothing based on pattern recognition. However, that idea fell short and could be later utilized to optimize the program even further, especially when it comes to more elaborate colors and designs.</p>
+            <p><b>Sources:</b></p>
+            <p>https://www.thredup.com/resale</p>
+            <p>https://www.forbes.com/sites/walterloeb/2019/05/15/resale-fashion-industry-bigger-and-more-disruptive-than-you-think/#1dda266609bd</p>
+            <p>https://www.machinelearningplus.com/nlp/cosine-similarity/</p>
+            <p>https://www.patagonia.com/product/womens-nano-puff-jacket/84217.html?dwvar_84217_color=PIGR&cgid=womens-jackets-vests#start=1</p>
+            <p>https://www.isoldwhat.com/getcats/full-category-tree?1=1&RootID=11450#11450</p>
+        </div>
+    </body>
+</html>
+
+
+
+
+
+
+

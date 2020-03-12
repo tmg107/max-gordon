@@ -67,7 +67,7 @@
             <p>Out of the three methods, cosine similarity worked by far the best in recognizing similar items from the eBay clothing list. Without getting too technical, the cosine similarity function looks for the cosine of the angle between two vectors in a multi-dimensional space.</p>
             <img class="img_3" src="images/img8.png">
             <p>However, in text analysis, our vectors are composed of words and the angle between the two vectors represents how similar the phrases are to each other. In this example, I defined a cosine similarity function that compared the Patagonia jacket to all the other entries pulled from the eBay API. With cosine similarity, the angle can be from 0 to 1 and the closer the angle is to 1 the more similar the two sentences are. If the angle is exactly 1, the two vectors are identical and if the angle is exactly 0 there are no similar words in the two vectors.</p>
-            <p>In Python, I imported the sklearn machine learning package and utilized "TfidfVectorizer" to extract the cosine similarity between our entries.Now that the cosine values have been calculated and appended to a list, I added all values of interest to a pandas data frame and compared the results.</p>
+            <p>In Python, I imported the sklearn machine learning package and utilized "TfidfVectorizer" to extract the cosine similarity between our entries. Now that the cosine values have been calculated and appended to a list, I added all values of interest to a pandas data frame and compared the results.</p>
             <p><b>Results:</b></p>
             <img class="img_3" src="images/img9.png">
             <p>Figure 7: Five largest cosine values from 10,000 entries in the data frame</p>

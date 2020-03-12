@@ -104,6 +104,18 @@ p {
 .container .box:hover .icon .fa {
     font-size: 40px;
 }
+.container .box .icon .fas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px;
+    transition: .5s;
+    color: #fff;
+}
+.container .box:hover .icon .fas {
+    font-size: 40px;
+}
 .container .box .content {
     position: absolute;
     top: 100%;
@@ -131,19 +143,19 @@ p {
 }
 
 .container .box:nth-child(1) .icon{
-    background: orange;
+    background: green;
 }
 .container .box:nth-child(1) {
     background: darkblue;
 }
 .container .box:nth-child(2) .icon{
-    background: red;
+    background: lightblue;
 }
 .container .box:nth-child(2) {
     background: darkblue;
 }
 .container .box:nth-child(3) .icon{
-    background: green;
+    background: orange;
 }
 .container .box:nth-child(3) {
     background: darkblue;
@@ -187,6 +199,26 @@ p {
     margin-right: auto;
 }
 
+
+
+/*** BIO PAGE START!! ***/
+.blog_bio {
+    position: center;
+    line-height: 2;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.lab_mov {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+
 /*** IMAGES ***/ 
 .img_title {
     width: 500px;
@@ -198,16 +230,25 @@ p {
 .img_1 {
     width: 500px;
     padding: 10px 10px 10px 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .img_2 {
     width: 500px;
     padding: 10px 10px 10px 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .img_3 {
     width: 500px;
     padding: 10px 10px 10px 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 

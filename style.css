@@ -19,15 +19,17 @@ p {
 }
 
 
+
 /**** Navigation bar styles ****/ 
 
 .centered {
-    color: darkblue;
     text-decoration: none;
     list-style-type: none;
     font-size: 30px;
     position: relative;
     text-align: left;
+    color: white;
+    background-color: darkblue;
 }
 .centered:hover {
     color: lightblue;
@@ -39,9 +41,9 @@ p {
     display: inline;
     position: relative;
     padding-left: 20px;
-    padding-top: 22px;
+    padding-top: 15px;
     font-size: 18px;
-    color: black;
+    color: white;
 }
 .pages:hover {
     color: lightblue;
@@ -161,32 +163,40 @@ p {
     background: darkblue;
 }
 
+.footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
 /*** END button animations ***/
 
 /*** ABOUT ME PAGE START ***/ 
-.background {
-    position: relative;
-    text-align: left;
-    width: 60%;
+
+.column {
+    float: left;
+    width: 50%;
+    padding: 5px;
+}
+
+.row::after{
+    content:  " ";
+    clear: both;
+    display: table;
+} 
+
+
+.about .background {
+    display: inline;
     font-size: 20px;
     line-height: 2;
 }
 
-.contact {
+.about .profile_pic {
     position: relative;
-    float: left;
-    font-size: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
 }
 
-.profile_pic {
-    position: absolute;
-    top: 17%;
-    left: 50%;
-    width: 350px;
-    height: 280px;
-    float: left;
-    border-radius: 20px;
-}
 
 
 /*** RESALE PAGE START!! ***/
@@ -194,7 +204,7 @@ p {
 .blog_resale {
     position: center;
     line-height: 2;
-    width: 800px;
+    width: 70%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -205,7 +215,7 @@ p {
 .blog_bio {
     position: center;
     line-height: 2;
-    width: 800px;
+    width: 70%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -228,7 +238,7 @@ p {
 
 /* Resale images */ 
 .img_1 {
-    width: 500px;
+    width: 600px;
     padding: 10px 10px 10px 10px;
     display: block;
     margin-left: auto;
@@ -251,8 +261,10 @@ p {
     margin-right: auto;
 }
 
-
-
+.profile_pic {
+    float: right;
+    width: 50%;
+}
 
 
 
